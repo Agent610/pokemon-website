@@ -6,7 +6,17 @@ function Header({ user, onSignIn, onSignOut }) {
   return (
     <header className="header">
       <div className="header__logo">Everything Pokemon !</div>
-      <Nav user={user} onSignIn={onSignIn} onSignOut={onSignOut} />
+      <nav className="nav-links">
+        <a href="/">Home</a>
+        {user ? (
+          <>
+            <span className="username">{user.name}</span>
+            <button onClick={onSignOut}>Sign Out</button>
+          </>
+        ) : (
+          <button onClick={onSignIn}>Sign In</button>
+        )}
+      </nav>
     </header>
   );
 }
