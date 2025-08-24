@@ -1,36 +1,36 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
-
-import PokemonCard from "./PokemonCard/PokemonCard.jsx";
+import PokemonCard from "../PokemonCard/PokemonCard.jsx";
+import Header from "../Header/Header.jsx";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [pokemonList, setPokemonList] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=30")
+      .then((res) => res.json())
+      .then((data) => setPokemonList(data.results));
+  }, []);
+
+  const handleSignIn = () => {
+    setUser({ username: "AshKetchum" });
+  };
+
+  const handleSignOut = () => {
+    setUser(null);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app-container">
+      <Header user={user} onSignIn={handleSignIn} onSignOut={handleSignOut} />
+      <h1>Pokemon List</h1>
+      <div className="pokemon-grid">
+        {pokemonList.map((pokemon, index) => (
+          <PokemonCard key={index} name={pokemon.name} />
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   );
 }
 
