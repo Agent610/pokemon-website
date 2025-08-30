@@ -25,8 +25,8 @@ function About() {
             value for customers. With an expertise and speciaility in the
             backend development and a good amount of experience in the frontend.
             Also as a tutor it's more than just teaching it's about helping
-            students grow and develop into beginniners to confident developers.
-            I Parth, from wanting to join the Connecticut State Police and
+            students grow and develop from beginners to confident developers. I
+            Parth, from wanting to join the Connecticut State Police and
             becoming a Connecticut State-Trooper to now a Software Engineer I'm
             ready to do any project, assignment and provide meaningful solutions
             for my company that I work with.
