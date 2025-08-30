@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "../Header/Header.jsx";
 import PokemonCard from "../PokemonCard/PokemonCard.jsx";
+import About from "../About/About.jsx";
+//import Main from "../Main/Main.jsx";
 
 function App() {
   const [pokemonList, setPokemonList] = useState([]);
@@ -24,7 +26,9 @@ function App() {
         onSignIn={handleSignIn}
         onSignOut={handleSignOut}
       />
+
       <h2>Welcome to the Pokemon App !</h2>
+      <About />
     </div>
   );
 }
