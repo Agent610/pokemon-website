@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Header.css";
-import Nav from "../Nav/Nav.jsx";
+import Navigation from "../Navigation/Navigation.jsx";
 
 function Header({ user, onSignIn, onSignOut }) {
   return (
@@ -22,3 +22,5 @@ function Header({ user, onSignIn, onSignOut }) {
 }
 
 export default Header;
+
+/*Use the NewsExplorer */

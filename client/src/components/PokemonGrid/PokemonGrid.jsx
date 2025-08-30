@@ -1,0 +1,1 @@
+/*Use in the SavedPokemon Page similar ot NewsCardList */

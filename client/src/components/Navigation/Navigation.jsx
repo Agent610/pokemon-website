@@ -1,6 +1,6 @@
-import "./Nav.css";
+import "./Navigation.css";
 
-function Nav({ user, onSignOut, onSignIn }) {
+function Navigation({ user, onSignOut, onSignIn }) {
   return (
     <nav className="nav-links">
       <a href="/">Home</a>
@@ -20,4 +20,4 @@ function Nav({ user, onSignOut, onSignIn }) {
   );
 }
 
-export default Nav;
+export default Navigation;
