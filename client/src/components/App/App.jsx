@@ -3,10 +3,11 @@ import "./App.css";
 import Header from "../Header/Header.jsx";
 import PokemonCard from "../PokemonCard/PokemonCard.jsx";
 import About from "../About/About.jsx";
+import Footer from "../Footer/Footer.jsx";
 //import Main from "../Main/Main.jsx";
 
 function App() {
-  const [pokemonList, setPokemonList] = useState([]);
+  //const [pokemonList, setPokemonList] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   //const username = "Ash";
   const [user, setUser] = useState(null);
@@ -29,6 +30,7 @@ function App() {
 
       <h2>Welcome to the Pokemon App !</h2>
       <About />
+      <Footer />
     </div>
   );
 }
