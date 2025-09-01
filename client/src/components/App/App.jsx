@@ -13,6 +13,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import RegisterModal from "../RegisterModal/RegisterModal.jsx";
 import RegistrationSuccess from "../RegistrationSuccessModal/RegistrationSuccessModal.jsx";
 import MobileModal from "../MobileModal/MobileModal.jsx";
+import Navigation from "../Navigation/Navigation.jsx";
 //import Main from "../Main/Main.jsx";
 
 function App() {
@@ -130,6 +131,10 @@ function App() {
     removeToken();
     setLoggedIn(false);
   };
+
+  //Preloader
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
 
   return (
     <div className="app-container">

@@ -12,7 +12,7 @@ const Preloader = () => {
       }}
     >
       <div className="preloader-content">
-        <h1>Searching for news...</h1>
+        <h1>Searching for Pokemon...</h1>
         <span className="circle-preloader"></span>
       </div>
     </div>
