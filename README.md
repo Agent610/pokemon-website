@@ -31,6 +31,9 @@ Frontend
 3. npm run dev
    Backend
 
-1) cd server
-2) npm install
-3) npm start
+How to run the project
+Backend
+
+1. cd server
+2. npm install
+3. npm start

@@ -10,7 +10,9 @@ import LoginModal from "../LogInModal/LogInModal.jsx";
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-
+import RegisterModal from "../RegisterModal/RegisterModal.jsx";
+import RegistrationSuccess from "../RegistrationSuccessModal/RegistrationSuccessModal.jsx";
+import MobileModal from "../MobileModal/MobileModal.jsx";
 //import Main from "../Main/Main.jsx";
 
 function App() {
@@ -83,6 +85,7 @@ function App() {
   };
 
   //Authentication
+
   const handleLogin = ({ email, password }) => {
     setIsAuthLoading(true);
 
@@ -98,6 +101,25 @@ function App() {
       })
       .catch((error) => {
         console.error("Login failed", error);
+      })
+      .finally(() => {
+        setIsAuthLoading(false);
+      });
+  };
+
+  const handleRegister = ({ email, password, userName }) => {
+    setIsAuthLoading(true);
+
+    RegisterModal({ email, password, userName })
+      .then((response) => {
+        if (response) {
+          setMessage("Registration successfully completed !");
+          setActiveModal("registerSuccess");
+        }
+      })
+      .catch((error) => {
+        console.error("Registration failed", error);
+        setMessage("Registration failed");
       })
       .finally(() => {
         setIsAuthLoading(false);
@@ -126,11 +148,36 @@ function App() {
       <About />
       <Footer> </Footer>
 
+      {/* Modal Logic */}
+
+      {activeModal === "registerSuccess" && (
+        <RegistrationSuccess
+          onClose={handleCloseModal}
+          handleSigninClick={() => setActiveModal("login")}
+        />
+      )}
+
       <LoginModal
         isOpen={activeModal === "login"}
         onSubmit={handleLogin}
         onClose={handleCloseModal}
         handleSignupClick={() => setActiveModal("register")}
+      />
+
+      <RegisterModal
+        isOpen={activeModal === "register"}
+        onSubmit={handleRegister}
+        onClose={handleCloseModal}
+        handleSigninClick={() => setActiveModal("login")}
+      />
+
+      <MobileModal
+        isOpen={activeModal === "mobile"}
+        onClose={handleCloseModal}
+        handleSigninClick={() => setActiveModal("login")}
+        isLoggedIn={isLoggedIn}
+        handleSignoutClick={handleSignoutClick}
+        currentUser={currentUser}
       />
     </div>
   );
