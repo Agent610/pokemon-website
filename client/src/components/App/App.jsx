@@ -14,6 +14,13 @@ import RegisterModal from "../RegisterModal/RegisterModal.jsx";
 import RegistrationSuccess from "../RegistrationSuccessModal/RegistrationSuccessModal.jsx";
 import MobileModal from "../MobileModal/MobileModal.jsx";
 import Navigation from "../Navigation/Navigation.jsx";
+import { login, register, setToken, removeToken } from "../../../utils/auth.js";
+import {
+  fetchPokemon,
+  savePokemon,
+  deletePokemon,
+  getSavedPokemon,
+} from "../../../utils/Pokemon.js";
 //import Main from "../Main/Main.jsx";
 
 function App() {
@@ -31,6 +38,7 @@ function App() {
   const [hasSearched, setHasSearched] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(true);
   const [message, setMessage] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   //Modals
   const [activeModal, setActiveModal] = useState("");
@@ -69,20 +77,46 @@ function App() {
   const handleSearch = (query) => {
     setIsSearchLoading(true);
     setHasSearched(true);
-    setSearchKeyword(query);
 
-    searchPokemon(query)
-      .then((response) => {
-        setSearchResults(response);
-        setShowSearchBar(true);
+    fetchPokemon(query)
+      .then((data) => {
+        if (data) {
+          const pokemonResult = {
+            id: data.id,
+            name: data.name,
+            sprite: data.sprites?.front_default || "",
+            types: data.type.map((t) => t.type.name),
+          };
+          setSearchResults([pokemonResult]);
+        } else {
+          setSearchResults([]);
+        }
       })
       .catch((error) => {
-        console.error("Error loading Pokemon:", error);
+        console.error("Error loading Pokemon", error);
         setSearchResults([]);
-      })
-      .finally(() => {
-        setIsSearchLoading(false);
       });
+  };
+
+  //Pokemon Work p.2
+  const [savedPokemon, setSavedPokemon] = useState([]);
+
+  useEffect(() => {
+    getSavedPokemon().then((data) => setSavedPokemon(data));
+  }, []);
+
+  const handleSavePokemon = (pokemon) => {
+    savePokemon(pokemon).then((newPokemon) => {
+      if (newPokemon) {
+        setSavedPokemon((prev) => [...prev, newPokemon]);
+      }
+    });
+  };
+
+  const handleDeletePokemon = (pokemonId) => {
+    deletePokemon(pokemonId).then(() => {
+      setSavedPokemon((prev) => prev.filter((p) => p._id !== pokemonId));
+    });
   };
 
   //Authentication
@@ -111,7 +145,7 @@ function App() {
   const handleRegister = ({ email, password, userName }) => {
     setIsAuthLoading(true);
 
-    RegisterModal({ email, password, userName })
+    register({ email, password, userName })
       .then((response) => {
         if (response) {
           setMessage("Registration successfully completed !");
@@ -151,7 +185,48 @@ function App() {
 
       <h2>Welcome to the Pokemon App !</h2>
       <About />
-      <Footer> </Footer>
+
+      {/*Search Results */}
+      {hasSearched && (
+        <div>
+          {isSearchLoading ? (
+            <p>Loading Pokemon of interest...</p>
+          ) : searchResults.length > 0 ? (
+            <ul>
+              {searchResults.map((pokemon) => (
+                <li key={pokemon.id}>
+                  {pokemon.name}
+                  {isLoggedIn && (
+                    <button onClick={() => handleSavePokemon(pokemon)}>
+                      Save
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No Pokemon found. Try again</p>
+          )}
+        </div>
+      )}
+
+      {/*Saved Pokemon list */}
+      {isLoggedIn && savedPokemon.length > 0 && (
+        <div>
+          <h3>Your saved Pokemon</h3>
+          <ul>
+            {savedPokemon.map((p) => (
+              <li key={p.id}>
+                {p.name}
+                <button onClick={() => handleDeletePokemon(p._id)}>
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <Footer />
 
       {/* Modal Logic */}
 
