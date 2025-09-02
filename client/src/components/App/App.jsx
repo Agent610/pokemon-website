@@ -85,7 +85,7 @@ function App() {
             id: data.id,
             name: data.name,
             sprite: data.sprites?.front_default || "",
-            types: data.type.map((t) => t.type.name),
+            types: data.types.map((t) => t.type.name),
           };
           setSearchResults([pokemonResult]);
         } else {
@@ -172,6 +172,9 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* --- Preloader --- */}
+      {(isAuthLoading || isSearchLoading) && <Preloader />}
+
       <Header
         isLoggedIn={isLoggedIn}
         currentUser={currentUser}

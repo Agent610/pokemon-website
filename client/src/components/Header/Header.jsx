@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import "./Header.css";
 import Navigation from "../Navigation/Navigation.jsx";
-//import SearchBar from "../SearchBar/SearchBar.jsx";
+import SearchBar from "../SearchBar/SearchBar.jsx";
 import { useLocation } from "react-router-dom";
 
 function Header({
@@ -15,6 +15,7 @@ function Header({
   handleMobileClick,
 }) {
   const location = useLocation();
+  const isHomePage = location.pathname === "/";
   const isProfilePage = location.pathname === "/profile";
 
   return (
@@ -34,7 +35,7 @@ function Header({
         />
       </div>
 
-      {isProfilePage && (
+      {isHomePage && (
         <div className="header__search-bar">
           <h1 className="main__title">Gotta catch 'em all!</h1>
           <p className="main__info">
@@ -42,7 +43,7 @@ function Header({
             add them to your collection.
           </p>
           {showSearchBar ? (
-            <Searchbar onSearch={handleSearch} />
+            <SearchBar onSearch={handleSearch} />
           ) : (
             <button onClick={() => setShowSearchBar(true)}>Search</button>
           )}
