@@ -53,3 +53,6 @@ function Header({
   );
 }
 export default Header;
+
+//Not logged in = Home | Sign in
+//Logged in = Home | Username | Logout it's not showing that

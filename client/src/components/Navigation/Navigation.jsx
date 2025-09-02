@@ -126,3 +126,6 @@ function Navigation({
 }
 
 export default Navigation;
+
+//Navigation only works in mobile not in Desktop
+//Header information is wrong

@@ -59,3 +59,6 @@ const MobileModal = ({
 };
 
 export default MobileModal;
+
+//On Mobile it shows the correct Header
+//On Mobile I am able to redirect to the Pokemon Collection page BUT I see Localhost/saved-news and I don't see the correct information it should say "Username you have X pokemon in your collection "

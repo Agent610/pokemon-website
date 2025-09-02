@@ -89,3 +89,5 @@ const LoginModal = ({ isOpen, onSubmit, onClose, handleSignupClick }) => {
 };
 
 export default LoginModal;
+
+//When logging in the preloader popup "Searching for Pokemon comes it should be nothing"
