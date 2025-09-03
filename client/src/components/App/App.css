@@ -1,9 +1,18 @@
 .app-container {
   padding: 20px;
+  margin: 0 auto;
 }
 
-.pokemon-grid {
+.main-content.home-background {
+  background-image: url("../../../images/pokemon-background.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 10vh;
+  padding: 4rem 2rem;
+}
+/* .pokemon-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
-}
+} */

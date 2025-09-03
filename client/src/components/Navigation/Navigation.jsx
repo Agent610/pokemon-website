@@ -95,7 +95,7 @@ function Navigation({
 
         {isLoggedIn ? (
           /* Logged in state */
-          <div className="nav-list__auth">
+          <>
             <li className="nav-list__item">
               <Link to="/profile" className="nav-list__link">
                 Pokemon Collection
@@ -103,7 +103,7 @@ function Navigation({
             </li>
             <li className="nav-list__item">
               <button className="nav-list__button" onClick={handleSignoutClick}>
-                {currentUser && currentUser.name}
+                {currentUser?.name}
                 <img
                   src={isPokemonPage ? profileLogout : logout}
                   alt="Logout"
@@ -111,14 +111,12 @@ function Navigation({
                 />
               </button>
             </li>
-          </div>
+          </>
         ) : (
           /* Logged out state */
-          <div className="nav-list__auth">
-            <li className="nav-list__item">
-              <SignInButton />
-            </li>
-          </div>
+          <li className="nav-list__item">
+            <SignInButton />
+          </li>
         )}
       </ul>
     </nav>

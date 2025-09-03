@@ -101,4 +101,4 @@ const RegisterModal = ({ isOpen, onSubmit, onClose, handleSigninClick }) => {
 };
 export default RegisterModal;
 
-//Works but when processing registration the Preloader popup comes it should show nothing
+//Works but when processing registration it says Logging in it should say Registration...

@@ -1,0 +1,26 @@
+/*Desktop View */
+.main {
+  text-align: center;
+  width: 100%;
+}
+
+.main__title {
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 64px;
+  letter-spacing: 0px;
+  color: black;
+  max-width: 608px;
+  margin: 0;
+  margin-top: 80px;
+}
+
+.main__info {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0px;
+  color: black;
+  width: 608px;
+  margin-top: 32px;
+}

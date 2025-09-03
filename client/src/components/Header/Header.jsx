@@ -5,7 +5,7 @@ import SearchBar from "../SearchBar/SearchBar.jsx";
 import { useLocation } from "react-router-dom";
 
 function Header({
-  isLoggedin,
+  isLoggedIn,
   currentUser,
   handleSigninClick,
   handleSignoutClick,
@@ -26,7 +26,7 @@ function Header({
         </h1>
 
         <Navigation
-          isLoggedin={isLoggedin}
+          isLoggedIn={isLoggedIn}
           currentUser={currentUser}
           handleSigninClick={handleSigninClick}
           handleSignoutClick={handleSignoutClick}
@@ -53,6 +53,3 @@ function Header({
   );
 }
 export default Header;
-
-//Not logged in = Home | Sign in
-//Logged in = Home | Username | Logout it's not showing that

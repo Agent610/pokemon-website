@@ -73,6 +73,11 @@ function App() {
     }
   }, [activeModal]);
 
+  //Preloader
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [authAction, setAuthAction] = useState("");
+
   //Pokemon Work
   const handleSearch = (query) => {
     setIsSearchLoading(true);
@@ -122,6 +127,7 @@ function App() {
   //Authentication
 
   const handleLogin = ({ email, password }) => {
+    setAuthAction("login");
     setIsAuthLoading(true);
 
     login({ email, password })
@@ -139,10 +145,12 @@ function App() {
       })
       .finally(() => {
         setIsAuthLoading(false);
+        setAuthAction("");
       });
   };
 
   const handleRegister = ({ email, password, userName }) => {
+    setAuthAction("register");
     setIsAuthLoading(true);
 
     register({ email, password, userName })
@@ -158,6 +166,7 @@ function App() {
       })
       .finally(() => {
         setIsAuthLoading(false);
+        setAuthAction("");
       });
   };
 
@@ -166,71 +175,81 @@ function App() {
     setLoggedIn(false);
   };
 
-  //Preloader
-  const [isAuthLoading, setIsAuthLoading] = useState(false);
-  const [isSearchLoading, setIsSearchLoading] = useState(false);
-
   return (
     <div className="app-container">
       {/* --- Preloader --- */}
-      {(isAuthLoading || isSearchLoading) && <Preloader />}
+      {(isAuthLoading || isSearchLoading) && (
+        <Preloader
+          message={
+            isAuthLoading
+              ? authAction === "register"
+                ? "Registering..."
+                : "Logging in..."
+              : "Searching for Pokemon..."
+          }
+        />
+      )}
+      <div
+        className={`main-content ${
+          location.pathname === "/" ? "home-background" : ""
+        }`}
+      >
+        <Header
+          isLoggedIn={isLoggedIn}
+          currentUser={currentUser}
+          handleSigninClick={() => setActiveModal("login")}
+          handleSignoutClick={handleSignoutClick}
+          showSearchBar={showSearchBar}
+          handleSearch={handleSearch}
+          setShowSearchBar={setShowSearchBar}
+          handleMobileClick={() => setActiveModal("mobile")}
+        />
 
-      <Header
-        isLoggedIn={isLoggedIn}
-        currentUser={currentUser}
-        handleSigninClick={() => setActiveModal("login")}
-        handleSignoutClick={handleSignoutClick}
-        showSearchBar={showSearchBar}
-        handleSearch={handleSearch}
-        setShowSearchBar={setShowSearchBar}
-        handleMobileClick={() => setActiveModal("mobile")}
-      />
+        <h2>Welcome to the Pokemon App !</h2>
+        <About />
 
-      <h2>Welcome to the Pokemon App !</h2>
-      <About />
+        {/*Search Results */}
+        {hasSearched && (
+          <div>
+            {isSearchLoading ? (
+              <p>Loading Pokemon of interest...</p>
+            ) : searchResults.length > 0 ? (
+              <ul>
+                {searchResults.map((pokemon) => (
+                  <li key={pokemon.id}>
+                    {pokemon.name}
+                    {isLoggedIn && (
+                      <button onClick={() => handleSavePokemon(pokemon)}>
+                        Save
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No Pokemon found. Try again</p>
+            )}
+          </div>
+        )}
 
-      {/*Search Results */}
-      {hasSearched && (
-        <div>
-          {isSearchLoading ? (
-            <p>Loading Pokemon of interest...</p>
-          ) : searchResults.length > 0 ? (
+        {/*Saved Pokemon list */}
+        {isLoggedIn && savedPokemon.length > 0 && (
+          <div>
+            <h3>Your saved Pokemon</h3>
             <ul>
-              {searchResults.map((pokemon) => (
-                <li key={pokemon.id}>
-                  {pokemon.name}
-                  {isLoggedIn && (
-                    <button onClick={() => handleSavePokemon(pokemon)}>
-                      Save
-                    </button>
-                  )}
+              {savedPokemon.map((p) => (
+                <li key={p._id}>
+                  {p.name}
+                  <button onClick={() => handleDeletePokemon(p._id)}>
+                    Remove
+                  </button>
                 </li>
               ))}
             </ul>
-          ) : (
-            <p>No Pokemon found. Try again</p>
-          )}
-        </div>
-      )}
-
-      {/*Saved Pokemon list */}
-      {isLoggedIn && savedPokemon.length > 0 && (
-        <div>
-          <h3>Your saved Pokemon</h3>
-          <ul>
-            {savedPokemon.map((p) => (
-              <li key={p.id}>
-                {p.name}
-                <button onClick={() => handleDeletePokemon(p._id)}>
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <Footer />
-
+          </div>
+        )}
+        <Footer />
+      </div>
       {/* Modal Logic */}
 
       {activeModal === "registerSuccess" && (
