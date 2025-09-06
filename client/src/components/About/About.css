@@ -8,6 +8,7 @@
   display: flex;
   gap: 60px;
   align-items: start;
+  background-color: currentColor;
 }
 
 .about__title {

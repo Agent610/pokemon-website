@@ -40,5 +40,3 @@ function SearchBar({ onSearch }) {
 }
 
 export default SearchBar;
-
-//Is there but when I search a pokemon it never leaves

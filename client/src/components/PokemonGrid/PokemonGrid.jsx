@@ -1,1 +1,1 @@
-/*Use in the SavedPokemon Page similar ot NewsCardList */
+//Collection of pokemon the user saved ONLY accessible IF the user is signed in

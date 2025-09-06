@@ -1,17 +1,14 @@
 import React from "react";
 import "./About.css";
-import sistersBrotherPic from "../../../images/sisters-brother-pic.png";
+// import sistersBrotherPic from "../../../images/sisters-brother-pic.png";
+import selfie from "../../../images/professional-pic.png";
 
 function About() {
   return (
     <section className="about">
       <div className="about__content">
         <div className="about__image-container">
-          <img
-            src={sistersBrotherPic}
-            alt="Me with my two sisters"
-            className="about__image"
-          />
+          <img src={selfie} alt="The Man himself" className="about__image" />
         </div>
         <div className="about__text-content">
           <h1 className="about__title">About the Engineer</h1>
