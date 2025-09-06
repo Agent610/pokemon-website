@@ -15,7 +15,7 @@
 }
 
 .preloader-content {
-  height: 100%;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;

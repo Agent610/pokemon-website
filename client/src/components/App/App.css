@@ -1,5 +1,4 @@
 .app-container {
-  padding: 20px;
   margin: 0 auto;
 }
 
@@ -9,7 +8,6 @@
   background-position: center;
   background-repeat: no-repeat;
   min-height: 10vh;
-  padding: 4rem 2rem;
 }
 /* .pokemon-grid {
   display: grid;

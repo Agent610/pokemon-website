@@ -86,13 +86,7 @@ function App() {
     fetchPokemon(query)
       .then((data) => {
         if (data) {
-          const pokemonResult = {
-            id: data.id,
-            name: data.name,
-            sprite: data.sprites?.front_default || "",
-            types: data.types.map((t) => t.type.name),
-          };
-          setSearchResults([pokemonResult]);
+          setSearchResults([data]);
         } else {
           setSearchResults([]);
         }
@@ -100,7 +94,32 @@ function App() {
       .catch((error) => {
         console.error("Error loading Pokemon", error);
         setSearchResults([]);
+      })
+      .finally(() => {
+        setIsSearchLoading(false);
       });
+  };
+
+  const EvolutionList = ({ chain }) => {
+    return (
+      <li>
+        <img
+          src={chain.sprite}
+          alt={chain.species}
+          width={50}
+          style={{ marginRight: "8px" }}
+        />
+        {chain.species}
+        {chain.details.length > 0 && <span> ({chain.details.join(", ")})</span>}
+        {chain.evolvesTo.length > 0 && (
+          <ul style={{ marginLeft: "20px" }}>
+            {chain.evolvesTo.map((evo) => (
+              <EvolutionList key={evo.species} chain={evo} />
+            ))}
+          </ul>
+        )}
+      </li>
+    );
   };
 
   //Pokemon Work p.2
@@ -217,7 +236,21 @@ function App() {
               <ul>
                 {searchResults.map((pokemon) => (
                   <li key={pokemon.id}>
-                    {pokemon.name}
+                    <h3>{pokemon.name}</h3>
+                    <img src={pokemon.sprite} alt={pokemon.name} />
+                    <p>{pokemon.description}</p>
+                    <p>Height: {pokemon.height} m</p>
+                    <p>Weight: {pokemon.weight} kg</p>
+                    <p>Types: {pokemon.types.join(", ")}</p>
+                    {pokemon.evolutionChain && (
+                      <div>
+                        <h4>Evolution Line</h4>
+                        <ul>
+                          <EvolutionList chain={pokemon.evolutionChain} />
+                        </ul>
+                      </div>
+                    )}
+
                     {isLoggedIn && (
                       <button onClick={() => handleSavePokemon(pokemon)}>
                         Save
