@@ -1,1 +1,22 @@
-/* The user's profile page has their collection of saved pokemon NOTE only IF the user is signed in */
+import React from "react";
+import PokemonGrid from "../PokemonGrid/PokemonGrid.jsx";
+
+const Profile = ({ user, savedPokemon, onDelete, isLoggedIn }) => {
+  return (
+    <div className="profile-page">
+      <h2>{user?.userName} Your Profile</h2>
+
+      {isLoggedIn && savedPokemon.length > 0 ? (
+        <PokemonGrid
+          pokemons={savedPokemon}
+          onDelete={onDelete}
+          isLoggedIn={isLoggedIn}
+        />
+      ) : (
+        <p>You have no saved Pokémon.</p>
+      )}
+    </div>
+  );
+};
+
+export default Profile;
