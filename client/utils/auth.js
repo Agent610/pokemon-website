@@ -1,7 +1,7 @@
 import { baseUrl } from "./api";
 import { handleServerResponse } from "./api";
 
-const TOKEN_KEY = "jwt";
+const token = "jwt";
 
 export const login = ({ email, password }) => {
   return new Promise((resolve, reject) => {
@@ -88,13 +88,13 @@ export const checkToken = (token) => {
 };
 
 export const setToken = (token) => {
-  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem("token", token);
 };
 
 export const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY);
+  return localStorage.getItem("token");
 };
 
 export const removeToken = () => {
-  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem("token");
 };

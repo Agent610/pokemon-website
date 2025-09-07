@@ -21,7 +21,10 @@ import {
   deletePokemon,
   getSavedPokemon,
 } from "../../../utils/Pokemon.js";
-//import Main from "../Main/Main.jsx";
+import Main from "../Main/Main.jsx";
+import PokemonCard from "../PokemonCard/PokemonCard.jsx";
+// import PokemonGrid from "../PokemonGrid/PokemonGrid.jsx";
+// import Profile from "../Profile/Profile.jsx";
 
 function App() {
   //Location
@@ -189,9 +192,21 @@ function App() {
       });
   };
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+    const storedToken = localStorage.getItem("token");
+
+    if (storedUser && storedToken) {
+      setCurrentUser(JSON.parse(storedUser));
+      setLoggedIn(true);
+    }
+  }, []);
+
   const handleSignoutClick = () => {
     removeToken();
+    localStorage.removeItem("currentUser");
     setLoggedIn(false);
+    setCurrentUser({});
   };
 
   return (
@@ -227,60 +242,16 @@ function App() {
         <h2>Welcome to the Pokemon App !</h2>
         <About />
 
-        {/*Search Results */}
-        {hasSearched && (
-          <div>
-            {isSearchLoading ? (
-              <p>Loading Pokemon of interest...</p>
-            ) : searchResults.length > 0 ? (
-              <ul>
-                {searchResults.map((pokemon) => (
-                  <li key={pokemon.id}>
-                    <h3>{pokemon.name}</h3>
-                    <img src={pokemon.sprite} alt={pokemon.name} />
-                    <p>{pokemon.description}</p>
-                    <p>Height: {pokemon.height} m</p>
-                    <p>Weight: {pokemon.weight} kg</p>
-                    <p>Types: {pokemon.types.join(", ")}</p>
-                    {pokemon.evolutionChain && (
-                      <div>
-                        <h4>Evolution Line</h4>
-                        <ul>
-                          <EvolutionList chain={pokemon.evolutionChain} />
-                        </ul>
-                      </div>
-                    )}
-
-                    {isLoggedIn && (
-                      <button onClick={() => handleSavePokemon(pokemon)}>
-                        Save
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No Pokemon found. Try again</p>
-            )}
-          </div>
-        )}
-
-        {/*Saved Pokemon list */}
-        {isLoggedIn && savedPokemon.length > 0 && (
-          <div>
-            <h3>Your saved Pokemon</h3>
-            <ul>
-              {savedPokemon.map((p) => (
-                <li key={p._id}>
-                  {p.name}
-                  <button onClick={() => handleDeletePokemon(p._id)}>
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <Main
+          isLoggedIn={isLoggedIn}
+          children={<SearchBar handleSearch={handleSearch} />}
+          searchResults={searchResults}
+          hasSearched={hasSearched}
+          isSearchLoading={isSearchLoading}
+          handleSavePokemon={handleSavePokemon}
+          savedPokemon={savedPokemon}
+          handleDeletePokemon={handleDeletePokemon}
+        />
         <Footer />
       </div>
       {/* Modal Logic */}
