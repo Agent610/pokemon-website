@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import "./PokemonCard.css";
 import { useLocation } from "react-router-dom";
 import Caught from "../../../images/caught.svg";
@@ -114,28 +114,28 @@ function PokemonCard({
   );
 }
 
-// // PropTypes validation
-// PokemonCard.propTypes = {
-//   pokemon: PropTypes.shape({
-//     _id: PropTypes.string, // optional for unsaved Pokémon
-//     name: PropTypes.string.isRequired,
-//     description: PropTypes.string,
-//     height: PropTypes.number,
-//     weight: PropTypes.number,
-//     types: PropTypes.arrayOf(PropTypes.string),
-//     sprite: PropTypes.string,
-//     evolutionChain: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         species: PropTypes.string.isRequired,
-//         sprite: PropTypes.string.isRequired,
-//         details: PropTypes.arrayOf(PropTypes.string),
-//       })
-//     ),
-//   }).isRequired,
-//   isSaved: PropTypes.bool.isRequired,
-//   isLoggedIn: PropTypes.bool.isRequired,
-//   onSavePokemon: PropTypes.func.isRequired,
-//   onDeletePokemon: PropTypes.func,
-// };
+// PropTypes validation
+PokemonCard.propTypes = {
+  pokemon: PropTypes.shape({
+    _id: PropTypes.string, // optional for unsaved Pokémon
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    height: PropTypes.number,
+    weight: PropTypes.number,
+    types: PropTypes.arrayOf(PropTypes.string),
+    sprite: PropTypes.string,
+    evolutionChain: PropTypes.arrayOf(
+      PropTypes.shape({
+        species: PropTypes.string.isRequired,
+        sprite: PropTypes.string.isRequired,
+        details: PropTypes.arrayOf(PropTypes.string),
+      })
+    ),
+  }).isRequired,
+  isSaved: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  onSavePokemon: PropTypes.func.isRequired,
+  onDeletePokemon: PropTypes.func,
+};
 
 export default PokemonCard;
