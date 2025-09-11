@@ -100,5 +100,3 @@ const RegisterModal = ({ isOpen, onSubmit, onClose, handleSigninClick }) => {
   );
 };
 export default RegisterModal;
-
-//Works but when processing registration it says Logging in it should say Registration...

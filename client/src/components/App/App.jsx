@@ -23,8 +23,8 @@ import {
 } from "../../../utils/Pokemon.js";
 import Main from "../Main/Main.jsx";
 import PokemonCard from "../PokemonCard/PokemonCard.jsx";
-// import PokemonGrid from "../PokemonGrid/PokemonGrid.jsx";
-// import Profile from "../Profile/Profile.jsx";
+import PokemonGrid from "../PokemonGrid/PokemonGrid.jsx";
+import Profile from "../Profile/Profile.jsx";
 
 function App() {
   //Location
@@ -241,6 +241,20 @@ function App() {
 
         <h2>Welcome to the Pokemon App !</h2>
         <About />
+
+        <Routes>
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                savedPokemon={savedPokemon}
+                isLoggedIn={isLoggedIn}
+                currentUser={currentUser}
+                handleDeletePokemon={handleDeletePokemon}
+              />
+            }
+          />
+        </Routes>
 
         <Main
           isLoggedIn={isLoggedIn}

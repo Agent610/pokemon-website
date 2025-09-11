@@ -1,0 +1,68 @@
+/* Desktop view */
+.pokemon-grid {
+  max-width: 1280px;
+  margin: 0 auto;
+  background-color: #f5f6f7;
+}
+
+.pokemon-grid__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.pokemon-grid__no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #d1d2d6;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.pokemon-grid__no-results-title {
+  font-family: "Roboto Slab", Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #1a1b22;
+  margin: 0 0 16px;
+}
+
+.pokemon-grid__no-results-text {
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  color: #b6bcbf;
+  max-width: 400px;
+  text-align: center;
+  white-space: pre-line;
+}
+
+/* Tablet view */
+@media screen and (max-width: 768px) {
+  .pokemon-grid {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+
+  .pokemon-grid__container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Mobile view */
+@media screen and (max-width: 320px) {
+  .pokemon-grid {
+    max-width: 320px;
+    padding: 0;
+  }
+
+  .pokemon-grid__container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
