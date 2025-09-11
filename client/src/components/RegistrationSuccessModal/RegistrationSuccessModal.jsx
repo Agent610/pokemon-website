@@ -25,5 +25,3 @@ function RegistrationSuccess({ onClose, handleSigninClick }) {
 }
 
 export default RegistrationSuccess;
-
-//Transition works from Registration -> RegistrationSuccess -> Login

@@ -23,5 +23,3 @@ const Preloader = ({ message = "Loading..." }) => {
 };
 
 export default Preloader;
-
-//Doing what is need to do and is presented the way it should be only when I am searching for Pokemon it stays there and when I go to RegisterModal try to register this popup comes | Same goes for LoginModal
