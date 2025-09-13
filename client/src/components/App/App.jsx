@@ -239,7 +239,6 @@ function App() {
           handleMobileClick={() => setActiveModal("mobile")}
         />
 
-        <h2>Welcome to the Pokemon App !</h2>
         <About />
 
         <Routes>
@@ -256,16 +255,17 @@ function App() {
           />
         </Routes>
 
-        <Main
-          isLoggedIn={isLoggedIn}
-          children={<SearchBar handleSearch={handleSearch} />}
-          searchResults={searchResults}
-          hasSearched={hasSearched}
-          isSearchLoading={isSearchLoading}
-          handleSavePokemon={handleSavePokemon}
-          savedPokemon={savedPokemon}
-          handleDeletePokemon={handleDeletePokemon}
-        />
+        {location.pathname === "/" && (
+          <Main
+            isLoggedIn={isLoggedIn}
+            searchResults={searchResults}
+            hasSearched={hasSearched}
+            isSearchLoading={isSearchLoading}
+            handleSavePokemon={handleSavePokemon}
+            savedPokemon={savedPokemon}
+            handleDeletePokemon={handleDeletePokemon}
+          />
+        )}
         <Footer />
       </div>
       {/* Modal Logic */}

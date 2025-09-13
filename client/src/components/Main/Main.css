@@ -11,17 +11,16 @@
   font-weight: 400;
   font-size: 60px;
   line-height: 64px;
-  color: #333;
+  color: slategray;
   max-width: 608px;
   margin: 0 auto;
-  margin-top: 80px;
 }
 
 .main__info {
   font-weight: 400;
   font-size: 18px;
   line-height: 24px;
-  color: #555;
+  color: slategray;
   width: 608px;
   margin: 32px auto 0 auto;
 }

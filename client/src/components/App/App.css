@@ -7,10 +7,5 @@
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 10vh;
+  height: 1000px;
 }
-/* .pokemon-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
-} */

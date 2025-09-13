@@ -37,10 +37,10 @@ function Header({
 
       {isHomePage && (
         <div className="header__search-bar">
-          <h1 className="main__title">Gotta catch 'em all!</h1>
+          <h1 className="main__title">Welcome to the Pokemon App!</h1>
           <p className="main__info">
-            What Pokemon are you looking for ? Search for them, catch them and
-            add them to your collection.
+            What Pokemon are you looking for ? Search for them,and add them to
+            your collection, remember GOTTA CATCH 'EM ALL.
           </p>
           {showSearchBar ? (
             <SearchBar onSearch={handleSearch} />
