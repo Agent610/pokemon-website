@@ -2,18 +2,28 @@ import api from "./api";
 export const POKE_API_BASE = "https://pokeapi.co/api/v2/pokemon";
 
 // Get saved Pokémon (localStorage)
-export function getSavedPokemon() {
-  return api.getPokemon();
+export function getSavedPokemon(userId) {
+  const allData = JSON.parse(localStorage.getItem("savedPokemon") || "{}");
+  return Promise.resolve(allData[userId] || []);
 }
 
 // Save Pokémon (localStorage)
-export function savePokemon(pokemon) {
-  return api.savePokemon(pokemon);
+export function savePokemon(userId, pokemon) {
+  const allData = JSON.parse(localStorage.getItem("savedPokemon") || "{}");
+  if (!allData[userId]) allData[userId] = [];
+  allData[userId].push(pokemon);
+  localStorage.setItem("savedPokemon", JSON.stringify(allData));
+  return Promise.resolve(pokemon);
 }
 
 // Delete Pokémon (localStorage)
-export function deletePokemon(pokemonId) {
-  return api.deletePokemon(pokemonId);
+export function deletePokemon(userId, pokemonId) {
+  const allData = JSON.parse(localStorage.getItem("savedPokemon") || "{}");
+  if (allData[userId]) {
+    allData[userId] = allData[userId].filter((p) => pokemonId !== pokemonId);
+    localStorage.setItem("savedPokemon", JSON.stringify(allData));
+  }
+  return Promise.resolve();
 }
 
 // Search saved Pokémon (localStorage)

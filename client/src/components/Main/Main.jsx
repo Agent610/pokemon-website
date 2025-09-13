@@ -21,7 +21,7 @@ function Main({
             <PokemonCard
               key={pokemon.id || pokemon._id}
               pokemon={pokemon}
-              isSaved={savedPokemon.some((p) => p._id === pokemon._id)}
+              isSaved={savedPokemon.some((p) => pokemon._id === pokemon._id)}
               isLoggedIn={isLoggedIn}
               onSavePokemon={handleSavePokemon}
               onDeletePokemon={handleDeletePokemon}

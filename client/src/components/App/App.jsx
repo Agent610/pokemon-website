@@ -32,8 +32,6 @@ function App() {
 
   //User
   const [currentUser, setCurrentUser] = useState({});
-
-  //If Logged in
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   //SearchBar.jsx
@@ -129,19 +127,26 @@ function App() {
   const [savedPokemon, setSavedPokemon] = useState([]);
 
   useEffect(() => {
-    getSavedPokemon().then((data) => setSavedPokemon(data));
-  }, []);
+    if (isLoggedIn) {
+      getSavedPokemon(currentUser._id).then((data) => setSavedPokemon(data));
+    } else {
+      setSavedPokemon([]);
+    }
+  }, [isLoggedIn, currentUser]);
 
+  //Save and Delete Pokemon
   const handleSavePokemon = (pokemon) => {
-    savePokemon(pokemon).then((newPokemon) => {
-      if (newPokemon) {
-        setSavedPokemon((prev) => [...prev, newPokemon]);
-      }
+    if (!currentUser._id) return;
+
+    savePokemon(currentUser._id, pokemon).then((newPokemon) => {
+      if (newPokemon) setSavedPokemon((prev) => [...prev, newPokemon]);
     });
   };
 
   const handleDeletePokemon = (pokemonId) => {
-    deletePokemon(pokemonId).then(() => {
+    if (!currentUser._id) return;
+
+    deletePokemon(currentUser._id, pokemonId).then(() => {
       setSavedPokemon((prev) => prev.filter((p) => p._id !== pokemonId));
     });
   };
@@ -191,7 +196,15 @@ function App() {
         setAuthAction("");
       });
   };
+  const handleSignoutClick = () => {
+    removeToken();
+    localStorage.removeItem("currentUser");
+    setLoggedIn(false);
+    setCurrentUser({});
+    setSavedPokemon([]);
+  };
 
+  //Load user from LocalStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
     const storedToken = localStorage.getItem("token");
@@ -201,13 +214,6 @@ function App() {
       setLoggedIn(true);
     }
   }, []);
-
-  const handleSignoutClick = () => {
-    removeToken();
-    localStorage.removeItem("currentUser");
-    setLoggedIn(false);
-    setCurrentUser({});
-  };
 
   return (
     <div className="app-container">
@@ -239,9 +245,22 @@ function App() {
           handleMobileClick={() => setActiveModal("mobile")}
         />
 
-        <About />
-
         <Routes>
+          <Route
+            path="/"
+            element={
+              <Main
+                isLoggedIn={isLoggedIn}
+                searchResults={searchResults}
+                hasSearched={hasSearched}
+                isSearchLoading={isSearchLoading}
+                handleSavePokemon={handleSavePokemon}
+                savedPokemon={savedPokemon}
+                handleDeletePokemon={handleDeletePokemon}
+              />
+            }
+          />
+
           <Route
             path="/profile"
             element={
@@ -253,19 +272,8 @@ function App() {
               />
             }
           />
+          <Route path="/about" element={<About />} />
         </Routes>
-
-        {location.pathname === "/" && (
-          <Main
-            isLoggedIn={isLoggedIn}
-            searchResults={searchResults}
-            hasSearched={hasSearched}
-            isSearchLoading={isSearchLoading}
-            handleSavePokemon={handleSavePokemon}
-            savedPokemon={savedPokemon}
-            handleDeletePokemon={handleDeletePokemon}
-          />
-        )}
         <Footer />
       </div>
       {/* Modal Logic */}

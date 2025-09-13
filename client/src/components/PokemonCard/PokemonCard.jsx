@@ -29,6 +29,23 @@ function PokemonCard({
     }
   };
 
+  function flattenEvolutionChain(chain) {
+    const result = [];
+    const traverse = (node) => {
+      result.push({
+        species: node.species,
+        sprite: node.sprite,
+        details: node.details,
+      });
+      node.evolvesTo.forEach(traverse);
+    };
+    traverse(chain);
+    return result;
+  }
+  const flatEvolution = pokemon.evolutionChain
+    ? flattenEvolutionChain(pokemon.evolutionChain)
+    : [];
+
   return (
     <article className="pokemon-card">
       <div
@@ -69,13 +86,6 @@ function PokemonCard({
             />
           )}
         </button>
-
-        {!isLoggedIn && isHovered && (
-          <div className="pokemon-card__tooltip">Sign in to save Pokémon</div>
-        )}
-        {!isHome && isHovered && (
-          <div className="pokemon-card__tooltip">Remove from saved</div>
-        )}
       </div>
 
       <div className="pokemon-card__content">
@@ -88,11 +98,11 @@ function PokemonCard({
           Types: {pokemon.types ? pokemon.types.join(", ") : "N/A"}
         </p>
 
-        {pokemon.evolutionChain && pokemon.evolutionChain.length > 0 && (
+        {flatEvolution.length > 0 && (
           <div className="pokemon-card__evolution">
             <h4>Evolution Line</h4>
             <ul>
-              {pokemon.evolutionChain.map((evo) => (
+              {flatEvolution.map((evo) => (
                 <li key={evo.species}>
                   <img
                     src={evo.sprite}
