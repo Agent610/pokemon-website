@@ -210,8 +210,11 @@ function App() {
     const storedToken = localStorage.getItem("token");
 
     if (storedUser && storedToken) {
+      const user = JSON.parse(storedUser);
       setCurrentUser(JSON.parse(storedUser));
       setLoggedIn(true);
+
+      getSavedPokemon(user._id).then((data) => setSavedPokemon(data));
     }
   }, []);
 

@@ -9,45 +9,59 @@ export function getSavedPokemon(userId) {
 
 // Save Pokémon (localStorage)
 export function savePokemon(userId, pokemon) {
+  if (!userId) return Promise.resolve(null);
+
   const allData = JSON.parse(localStorage.getItem("savedPokemon") || "{}");
   if (!allData[userId]) allData[userId] = [];
-  allData[userId].push(pokemon);
+
+  const exists = allData[userId].some((p) => p.name === pokemon.name);
+  if (exists) return Promise.resolve(null);
+
+  const newPokemon = {
+    ...pokemon,
+    _id: crypto.randomUUID(),
+    savedAt: new Date().toISOString(),
+  };
+
+  allData[userId].push(newPokemon);
   localStorage.setItem("savedPokemon", JSON.stringify(allData));
-  return Promise.resolve(pokemon);
+  return Promise.resolve(newPokemon);
 }
 
 // Delete Pokémon (localStorage)
 export function deletePokemon(userId, pokemonId) {
+  if (!userId) return Promise.resolve();
+
   const allData = JSON.parse(localStorage.getItem("savedPokemon") || "{}");
   if (allData[userId]) {
-    allData[userId] = allData[userId].filter((p) => pokemonId !== pokemonId);
+    allData[userId] = allData[userId].filter((p) => p._id !== pokemonId);
     localStorage.setItem("savedPokemon", JSON.stringify(allData));
   }
+
   return Promise.resolve();
 }
 
 // Search saved Pokémon (localStorage)
-export function searchSavedPokemon(query) {
-  return new Promise((resolve) => {
-    api.getPokemon().then((allPokemon) => {
-      const results = allPokemon.filter((p) =>
-        p.name.toLowerCase().includes(query.toLowerCase())
-      );
-      resolve(results);
-    });
-  });
-}
+//export function searchSavedPokemon(query, userId) {
+// return new Promise((resolve) => {
+//   api.getPokemon().then((allPokemon) => {
+//     const results = allPokemon.filter((p) =>
+//       p.name.toLowerCase().includes(query.toLowerCase())
+//     );
+//     resolve(results);
+//   });
+// });
+//return getSavedPokemon(userId).then((saved) =>
+//saved.filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
+//);
+//}
 
 export async function fetchPokemon(name) {
   try {
-    // 1. Main Pokémon data
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`
-    );
+    const response = await fetch(`${POKE_API_BASE}/${name.toLowerCase()}`);
     if (!response.ok) throw new Error("Pokemon not found");
     const data = await response.json();
 
-    // 2. Species (description + evolution chain URL)
     const speciesResponse = await fetch(data.species.url);
     const speciesData = await speciesResponse.json();
 
@@ -58,11 +72,9 @@ export async function fetchPokemon(name) {
       ? descriptionEntry.flavor_text.replace(/\n|\f/g, " ")
       : "";
 
-    // 3. Evolution chain
     const evolutionResponse = await fetch(speciesData.evolution_chain.url);
     const evolutionData = await evolutionResponse.json();
 
-    // Helper to parse evolution chain recursively
     const parseEvolutionChain = async (chain) => {
       const pokeRes = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${chain.species.name}`
@@ -75,14 +87,11 @@ export async function fetchPokemon(name) {
         sprite,
         evolvesTo: [],
         details: chain.evolution_details.map((detail) => {
-          let condition = "";
-          if (detail.min_level) condition = `Level ${detail.min_level}`;
-          else if (detail.item) condition = `Use ${detail.item.name}`;
-          else if (detail.trigger?.name === "friendship")
-            condition = "High friendship";
-          else if (detail.trigger?.name) condition = detail.trigger.name;
-
-          return condition || "Unknown";
+          if (detail.min_level) return `Level ${detail.min_level}`;
+          if (detail.item) return `Use ${detail.item.name}`;
+          if (detail.trigger?.name === "friendship") return "High friendship";
+          if (detail.trigger?.name) return detail.trigger.name;
+          return "Unknown";
         }),
       };
 
@@ -99,12 +108,12 @@ export async function fetchPokemon(name) {
     return {
       id: data.id,
       name: data.name,
-      sprite: data.sprites?.front_default || "",
+      sprite: data.sprites.front_default,
       types: data.types.map((t) => t.type.name),
-      height: data.height / 10, // meters
-      weight: data.weight / 10, // kilograms
+      height: data.height / 10,
+      weight: data.weight / 10,
       description,
-      evolutionChain, // now has names + how-to-evolve details
+      evolutionChain,
     };
   } catch (error) {
     console.error("Error fetching Pokémon:", error);

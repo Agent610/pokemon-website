@@ -19,13 +19,15 @@ function PokemonCard({
   const [wasJustSaved, setWasJustSaved] = useState(false);
 
   const handleClick = () => {
-    if (isHome) {
-      if (isLoggedIn) {
-        onSavePokemon(pokemon);
-        setWasJustSaved(true);
-      }
-    } else if (onDeletePokemon && pokemon._id) {
-      onDeletePokemon(pokemon._id);
+    if (!isLoggedIn) return;
+
+    if (isSaved || !isHome) {
+      onDeletePokemon(
+        pokemon._id || savedPokemon.find((p) => p.name === pokemon.name)?._id
+      );
+    } else {
+      onSavePokemon(pokemon);
+      setWasJustSaved(true);
     }
   };
 
