@@ -89,7 +89,7 @@
 /* Tablet */
 @media screen and (max-width: 768px) {
   .pokemon-card {
-    width: 224px;
+    width: 300px;
   }
 
   .pokemon-card__image-wrapper {
@@ -115,7 +115,7 @@
 /* Mobile */
 @media screen and (max-width: 320px) {
   .pokemon-card {
-    width: 288px;
+    width: 240px;
   }
 
   .pokemon-card__image-wrapper {

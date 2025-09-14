@@ -2,6 +2,7 @@
 .footer {
   padding: 20px 40px;
   background-color: slategray;
+  flex-shrink: 0;
 }
 
 .footer__content {
