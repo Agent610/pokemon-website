@@ -31,7 +31,7 @@ function Main({
       )}
 
       {/* Saved Pokémon */}
-      {isLoggedIn && savedPokemon && savedPokemon.length > 0 && (
+      {/* {isLoggedIn && savedPokemon && savedPokemon.length > 0 && (
         <section className="main__saved-pokemon">
           <h3>Your Saved Pokémon</h3>
           {savedPokemon.map((pokemon) => (
@@ -47,7 +47,7 @@ function Main({
             />
           ))}
         </section>
-      )}
+      )} */}
     </main>
   );
 }

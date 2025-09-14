@@ -11,12 +11,20 @@ export function getSavedPokemon(userId) {
 export function savePokemon(userId, pokemon) {
   if (!userId) return Promise.resolve(null);
 
+  // Get all saved data (object by userId)
   const allData = JSON.parse(localStorage.getItem("savedPokemon") || "{}");
-  if (!allData[userId]) allData[userId] = [];
 
-  const exists = allData[userId].some((p) => p.name === pokemon.name);
-  if (exists) return Promise.resolve(null);
+  // Ensure current user has a bucket
+  if (!allData[userId]) {
+    allData[userId] = [];
+  }
 
+  // Prevent duplicates
+  if (allData[userId].some((p) => p.name === pokemon.name)) {
+    return Promise.resolve(null);
+  }
+
+  // Add Pokémon with internal ID + timestamp
   const newPokemon = {
     ...pokemon,
     _id: crypto.randomUUID(),
@@ -24,37 +32,22 @@ export function savePokemon(userId, pokemon) {
   };
 
   allData[userId].push(newPokemon);
+
+  // Save back into localStorage as { userId: [] }
   localStorage.setItem("savedPokemon", JSON.stringify(allData));
+
   return Promise.resolve(newPokemon);
 }
 
 // Delete Pokémon (localStorage)
 export function deletePokemon(userId, pokemonId) {
-  if (!userId) return Promise.resolve();
-
   const allData = JSON.parse(localStorage.getItem("savedPokemon") || "{}");
   if (allData[userId]) {
     allData[userId] = allData[userId].filter((p) => p._id !== pokemonId);
     localStorage.setItem("savedPokemon", JSON.stringify(allData));
   }
-
   return Promise.resolve();
 }
-
-// Search saved Pokémon (localStorage)
-//export function searchSavedPokemon(query, userId) {
-// return new Promise((resolve) => {
-//   api.getPokemon().then((allPokemon) => {
-//     const results = allPokemon.filter((p) =>
-//       p.name.toLowerCase().includes(query.toLowerCase())
-//     );
-//     resolve(results);
-//   });
-// });
-//return getSavedPokemon(userId).then((saved) =>
-//saved.filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
-//);
-//}
 
 export async function fetchPokemon(name) {
   try {
