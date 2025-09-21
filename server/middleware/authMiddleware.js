@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-exports.protect = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return res.status(401).json({ message: "No token" });
@@ -14,3 +14,5 @@ exports.protect = async (req, res, next) => {
     res.status(401).json({ message: "Unauthorized" });
   }
 };
+
+module.exports = authMiddleware;
