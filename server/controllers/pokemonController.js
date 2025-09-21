@@ -2,7 +2,7 @@ const axios = require("axios");
 const User = require("../models/user");
 
 // GET all Pokémon (with pagination)
-exports.getPokemons = async (req, res) => {
+const getPokemons = async (req, res) => {
   try {
     const { limit = 20, offset = 0 } = req.query;
     const response = await axios.get(
@@ -16,7 +16,7 @@ exports.getPokemons = async (req, res) => {
 };
 
 // GET single Pokémon by ID
-exports.getPokemonById = async (req, res) => {
+const getPokemonById = async (req, res) => {
   try {
     const { id } = req.params;
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -28,7 +28,7 @@ exports.getPokemonById = async (req, res) => {
 };
 
 // ADD a Pokémon to user's favorites
-exports.addFavorite = async (req, res) => {
+const addFavorite = async (req, res) => {
   try {
     const { pokemonId } = req.body;
     const user = await User.findById(req.user.id);
@@ -49,7 +49,7 @@ exports.addFavorite = async (req, res) => {
 };
 
 // GET all favorites (fetch details from PokéAPI)
-exports.getFavorites = async (req, res) => {
+const getFavorites = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -71,7 +71,7 @@ exports.getFavorites = async (req, res) => {
 };
 
 // REMOVE a Pokémon from favorites
-exports.removeFavorite = async (req, res) => {
+const removeFavorite = async (req, res) => {
   try {
     const { id } = req.params;
     const user = await User.findById(req.user.id);
@@ -85,4 +85,12 @@ exports.removeFavorite = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error removing favorite" });
   }
+};
+
+module.exports = {
+  getPokemons,
+  getPokemonById,
+  addFavorite,
+  getFavorites,
+  removeFavorite,
 };
