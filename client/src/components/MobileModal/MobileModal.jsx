@@ -27,7 +27,7 @@ const MobileModal = ({
 
         {isLoggedIn ? (
           <>
-            <Link to="/saved-news" className="mobile__link" onClick={onClose}>
+            <Link to="/profile" className="mobile__link" onClick={onClose}>
               Pokemon Collection
             </Link>
 
