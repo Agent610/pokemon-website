@@ -1,5 +1,5 @@
 // api.js
-export const baseUrl = "https://pokemon-backend-0t0r.onrender.com";
+export const baseUrl = "process.env.REACT_APP_API_URL";
 
 // Token management
 export const getToken = () => localStorage.getItem("jwt");
