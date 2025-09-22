@@ -3,14 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://Agent610.github.io/pokemon=website",
+  "homepage": "https://Agent610.github.io/pokemon-website",
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist --dotfiles --history false"
   },
   "dependencies": {
     "react": "^19.1.1",
